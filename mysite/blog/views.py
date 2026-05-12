@@ -1,8 +1,27 @@
-from django.shortcuts import render
+# Views for mysite->blog
+
+from django.shortcuts import render, redirect
 from django.template import loader
+from blog.models import Post
+from django.contrib.auth import login, authenticate, logout
 
 from django.http import HttpResponse
-# Create your views here.
+
 def home(request):
-    template = loader.get_template("blog/home.html")
-    return HttpResponse(template.render(None, request))
+    posts = Post.objects.all()
+    return render(request, 'blog/home.html', {'posts': posts})
+
+def signup_view(request):
+    if request.method == "POST":
+        form - SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            form = SignUpForm()
+        return render(request, 'blog/signup.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
