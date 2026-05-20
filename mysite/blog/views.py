@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from blog.models import Post
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm
 from django.http import HttpResponse
 
@@ -25,3 +26,7 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def profile_view(request):
+    return render(request, 'blog/profile.html')
